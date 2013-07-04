@@ -8,14 +8,11 @@ import com.lankorlab.traslate.currency.CurrencyType;
 import com.lankorlab.traslate.impl.SpanishTranslator;
 
 public class SpanishCurrencyTranslator implements CurrencyTranslator {
+	NumberTranslator translator = new SpanishTranslator();
 	
 	@Override
-	public String translate(Number number, CurrencyType currency, NumberTranslator translator) {
-//		NumberTranslator translator = new SpanishTranslator();
-		
+	public String translate(Number number, CurrencyType currency) {
 		long intPart = number.longValue();
-		
-		boolean isPlural = intPart != 1;
 		
 		String decimalPart = getDecimalPart(number);
 		String word = translator.translate(intPart);
@@ -25,6 +22,12 @@ public class SpanishCurrencyTranslator implements CurrencyTranslator {
 		}
 		
 		StringBuilder numToWord = new StringBuilder(word);
+		
+		if(number.longValue() == 1 && currency.equals(CurrencyType.MEXICO)) {
+			numToWord.append(" peso");
+		} else if (currency.equals(CurrencyType.MEXICO)) {
+			numToWord.append(" pesos");
+		}
 		
 		numToWord.append(" ");
 		numToWord.append(decimalPart);

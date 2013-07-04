@@ -37,7 +37,7 @@ public class SpanishTranslator implements NumberTranslator {
 	 * Representacion escrita de las centenas.
 	 */
 	private static final String[] HUNDREDS = {null, "cien", "doscientos", 
-		"trecientos", "cuatrocientos", "quinientos", "seisientos", 
+		"trescientos", "cuatrocientos", "quinientos", "seiscientos", 
 		"setecientos", "ochocientos","novecientos"};
 	/**
 	 * Representacion escrita de millares
@@ -47,41 +47,51 @@ public class SpanishTranslator implements NumberTranslator {
 	/**
 	 * Representacion escrita de millones tanto en singular como en plural.
 	 */
-	private static final String[] MILLIONS = {null, "millon", "millones"};
+	private static final String[] MILLIONS = {null, "millón", "millones"};
+	
+	/**
+	 * Representacion escrita de millones tanto en singular como en plural.
+	 */
+	private static final String[] BILLIONS = {null, "billón", "billones"};
+	
+	/**
+	 * Billones
+	 */
+	private static final int BILLION = 12;
 	
 	/**
 	 * Miles de millon
 	 */
-	private static final int THOUSAND_MILLION = 1000000000;
+	private static final int THOUSAND_MILLION = 9;
 	/**
 	 * Millon
 	 */
-	private static final int MILLION = 1000000;
+	private static final int MILLION = 6;
 	/**
 	 * Mil
 	 */
-	private static final int THOUSAND = 1000;
+	private static final int THOUSAND = 3;
 	
 	/**
 	 * Centena
 	 */
-	private static final int HUNDRED = 100;
+	private static final int HUNDRED = 2;
 	/**
 	 * Decena
 	 */
-	private static final int TEN = 10;
+	private static final int TEN = 1;
 	/**
 	 * Unidad
 	 */
-	private static final int UNIT = 1;
+	private static final int UNIT = 0;
 	
 	@Override
-	public String translate(long number) {
-		if (number < 0) {
+	public String translate(Number number) {
+		if (number.longValue() < 0) {
 			throw new IllegalArgumentException("El valor es incorecto, el " +
-					"numero debe ser mayor o igual a 0");
+					"número debe ser mayor o igual a 0");
 		}
-		return translateNumber(number);
+		return translateNumber(number.longValue());
 	}
 
 	private String translateNumber(long number) {
@@ -93,13 +103,41 @@ public class SpanishTranslator implements NumberTranslator {
 		int n = init(number);
 		
 		int word;
-		int resto;
+		long resto;
+		long factor;
 		
 		while (number != 0) {
 			switch(n) {
+			case BILLION:
+				factor = (long) Math.pow(10, BILLION);
+				word = (int) (number / factor);
+				resto = (long) number % factor;
+				
+				String billions = getHundreds(word);
+				numToWord.append(billions);
+				
+				if (!numToWord.toString().endsWith(" ")) {
+					numToWord.append(" ");
+				}
+								
+				if (word == 1) {
+					numToWord.append(BILLIONS[word]);
+				} else {
+					numToWord.append(BILLIONS[2]);
+				}
+				
+				if (resto > 0) {
+					numToWord.append(" ");
+				}
+				number = resto;
+				n = init(resto);
+				
+				break;
+				
 			case THOUSAND_MILLION:
-				word = (int)(number / MILLION);
-				resto = (int)(number % MILLION);
+				factor = (long) Math.pow(10, MILLION);
+				word = (int) (number / factor);
+				resto = (long) number % factor;
 				
 				numToWord.append(translateNumber(word));
 				if (!numToWord.toString().endsWith(" ")) {
@@ -113,23 +151,22 @@ public class SpanishTranslator implements NumberTranslator {
 				number = resto;
 				n = init(resto);
 				break;
-			case MILLION:
-				word = (int) (number / MILLION);
-				resto = (int) (number % MILLION);
 				
+			case MILLION:
+				factor = (long) Math.pow(10, MILLION);
+				word = (int) (number / factor);
+				resto = (long) number % factor;
+				
+				String thousandsMillion = getHundreds(word);
+				numToWord.append(thousandsMillion);
+				
+				if (!numToWord.toString().endsWith(" ")) {
+					numToWord.append(" ");
+				}
+								
 				if (word == 1) {
-					numToWord.append(UNITS[word].substring(0, UNITS[word].length() -1));
-					numToWord.append(" ");
 					numToWord.append(MILLIONS[word]);
-				} else if ( word > 1 && word < 10) {
-					numToWord.append(UNITS[word]);
-					numToWord.append(" ");
-					numToWord.append(MILLIONS[2]);
-				} else if (word > 9 && word < 1000){
-					numToWord.append(translateNumber(word));
-					if (!numToWord.toString().endsWith(" ")) {
-						numToWord.append(" ");
-					}
+				} else {
 					numToWord.append(MILLIONS[2]);
 				}
 				
@@ -141,38 +178,31 @@ public class SpanishTranslator implements NumberTranslator {
 				break;
 				
 			case THOUSAND:
-				word = (int) (number / THOUSAND);
-				resto = (int) (number % THOUSAND);
+				factor = (long) Math.pow(10, THOUSAND);
+				word = (int) (number / factor);
+				resto = (long) number % factor;
 				
-				if (word == 1) {
-					numToWord.append(THOUSANDS);
-				} else if ( word > 1 && word < 10) {
-					numToWord.append(UNITS[word]);
+				String thousands = getHundreds(word);
+				numToWord.append(thousands);
+				
+				if (!numToWord.toString().endsWith(" ")) {
 					numToWord.append(" ");
-					numToWord.append(THOUSANDS);
-				} else if (word > 9 && word < 1000){
-					String thousands = translateNumber(word).trim();
-					if (thousands.endsWith("uno")) {
-						thousands = thousands.substring(0, thousands.length() - 1);
-					}
-					numToWord.append(thousands);
-					if (!numToWord.toString().endsWith(" ")) {
-						numToWord.append(" ");
-					}
-					numToWord.append(THOUSANDS);
 				}
+				numToWord.append(THOUSANDS);
 				
 				if (resto > 0) {
 					numToWord.append(" ");
 				}
+				
 				number = resto;
 				n = init(resto);
 				
 				break;
 				
 			case HUNDRED:
-				word = (int)number / HUNDRED;
-				resto = (int)number % HUNDRED;
+				factor = (long) Math.pow(10, HUNDRED);
+				word = (int) (number / factor);
+				resto = (long) number % factor;
 				
 				if ( word > 0 && word < 10) {
 					numToWord.append(HUNDREDS[word]);
@@ -188,17 +218,18 @@ public class SpanishTranslator implements NumberTranslator {
 				break;
 				
 			case TEN:
-				word = (int)number / TEN;
-				resto = (int)number % TEN;
+				factor = (long) Math.pow(10, TEN);
+				word = (int) (number / factor);
+				resto = (long) number % factor;
 				
 				if (word == 1 && resto > 0) {
-					numToWord.append(ESP[resto]);
+					numToWord.append(ESP[(int) resto]);
 					number = 0;
 				} else if (word == 1 && resto == 0) {
 					numToWord.append(TENS[word]);
 					number = 0;
 				} else if (word == 2 && resto > 0) {
-					numToWord.append(ESP[resto + 10]);
+					numToWord.append(ESP[(int)resto + 10]);
 					number = 0;
 				} else if (word == 2 && resto == 0) {
 					numToWord.append(TENS[word]);
@@ -223,8 +254,16 @@ public class SpanishTranslator implements NumberTranslator {
 					return "No se puede convertir el numero";
 			}
 		}
-			
 		return numToWord.toString();
+	}
+
+	private String getHundreds(int word) {
+		String thousands = translateNumber(word).trim();
+			
+		if (thousands.endsWith("uno")) {
+			thousands = thousands.substring(0, thousands.length() - 1);
+		}
+		return thousands;
 	}
 
 	/**
@@ -260,24 +299,15 @@ public class SpanishTranslator implements NumberTranslator {
 		case 12:
 			return THOUSAND_MILLION;
 			
+		case 13:
+		case 14:
+		case 15:
+			return BILLION;
+			
 		default:
 			return 0;
 		}
 		
 	}
 
-	@Override
-	public String translate(int number) {
-		return translate((long) number);
-	}
-
-	@Override
-	public String translate(short number) {
-		return translate((long) number);
-	}
-
-	@Override
-	public String translate(byte number) {
-		return translate((long) number);
-	}
 }

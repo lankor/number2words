@@ -1,19 +1,15 @@
 package com.lankorlab.traslate.currency;
 
 public enum CurrencyType {
-	MEXICO("MXN", 484, "pesos", "peso")
+	MEXICO("MXN", 484)
 	;
 	
 	String code;
-	String singular;
-	String plural;
 	int numericCode;
 	
-	CurrencyType(String code, int numericCode, String plural, String singular) {
+	CurrencyType(String code, int numericCode) {
 		this.code = code;
 		this.numericCode = numericCode;
-		this.plural = plural;
-		this.singular = singular;
 	}
 
 	/**
@@ -28,13 +24,5 @@ public enum CurrencyType {
 	 */
 	public int getNumericCode() {
 		return numericCode;
-	}
-	
-	public String getPlural() {
-		return plural;
-	}
-	
-	public String getSingular() {
-		return singular;
 	}
 }
