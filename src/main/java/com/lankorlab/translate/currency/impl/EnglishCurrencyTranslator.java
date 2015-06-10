@@ -3,10 +3,10 @@ package com.lankorlab.translate.currency.impl;
 import com.lankorlab.translate.NumberTranslator;
 import com.lankorlab.translate.currency.CurrencyTranslator;
 import com.lankorlab.translate.currency.CurrencyType;
-import com.lankorlab.translate.impl.SpanishTranslator;
+import com.lankorlab.translate.impl.EnglishTranslator;
 
-public class SpanishCurrencyTranslator extends AbstractCurrencyTranslator implements CurrencyTranslator {
-	NumberTranslator translator = new SpanishTranslator();
+public class EnglishCurrencyTranslator extends AbstractCurrencyTranslator implements CurrencyTranslator {
+	NumberTranslator translator = new EnglishTranslator();
 	
 	@Override
 	public String translate(Number number, CurrencyType currency) {
@@ -34,9 +34,9 @@ public class SpanishCurrencyTranslator extends AbstractCurrencyTranslator implem
 			
 		case USA:
 			if (number.longValue() == 1) {
-				numToWord.append("dolar");
+				numToWord.append("dollar");
 			} else {
-				numToWord.append("dólares");
+				numToWord.append("dollars");
 			}
 			break;
 

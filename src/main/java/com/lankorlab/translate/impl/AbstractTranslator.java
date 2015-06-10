@@ -21,10 +21,12 @@ public abstract class AbstractTranslator {
 	 * Miles de millon
 	 */
 	protected static final int THOUSAND_MILLION = 9;
+	
 	/**
 	 * Millon
 	 */
 	protected static final int MILLION = 6;
+	
 	/**
 	 * Mil
 	 */
@@ -34,10 +36,12 @@ public abstract class AbstractTranslator {
 	 * Centena
 	 */
 	protected static final int HUNDRED = 2;
+	
 	/**
 	 * Decena
 	 */
 	protected static final int TEN = 1;
+	
 	/**
 	 * Unidad
 	 */

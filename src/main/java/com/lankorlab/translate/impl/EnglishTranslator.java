@@ -15,6 +15,8 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 	private static final String MILLIONS = "million";
 	private static final String BILLIONS = "billion";
 	private static final String TRILLIONS = "trillion";
+	private static final String QUADRILLION = "quadrillion";
+	private static final String QUINTILLION = "quintillion";
 	
 	@Override
 	public String translate(Number number) {
@@ -36,6 +38,52 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 			long resto;
 			String miles;
 			switch (n) {
+			case TRILLION:
+				factor = (long) Math.pow(10, TRILLION);
+				word = (int) (number / factor);
+				resto = number % factor;
+
+				String quatrillions = getHundreds(word);
+				numToWord.append(quatrillions);
+				
+				if (!numToWord.toString().endsWith(" ")) {
+					numToWord.append(" ");
+				}
+				
+				numToWord.append(QUINTILLION);
+
+				if (resto > 0L) {
+					numToWord.append(" ");
+				}
+				
+				number = resto;
+				n = init(resto);
+
+				break;
+				
+			case THOUSAND_BILLION:
+				factor = (long) Math.pow(10, THOUSAND_BILLION);
+				word = (int) (number / factor);
+				resto = number % factor;
+
+				String trillions = getHundreds(word);
+				numToWord.append(trillions);
+				
+				if (!numToWord.toString().endsWith(" ")) {
+					numToWord.append(" ");
+				}
+				
+				numToWord.append(QUADRILLION);
+
+				if (resto > 0L) {
+					numToWord.append(" ");
+				}
+				
+				number = resto;
+				n = init(resto);
+
+				break;
+				
 			case BILLION:
 				factor = (long) Math.pow(10, BILLION);
 				word = (int) (number / factor);
@@ -60,7 +108,7 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 				break;
 				
 			case THOUSAND_MILLION:
-				factor = (long) Math.pow(10, MILLION);
+				factor = (long) Math.pow(10, THOUSAND_MILLION);
 				word = (int) (number / factor);
 				resto = number % factor;
 
@@ -80,7 +128,7 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 				break;
 				
 			case MILLION:
-				factor = (long) Math.pow(10.0D, 6.0D);
+				factor = (long) Math.pow(10, MILLION);
 				word = (int) (number / factor);
 				resto = number % factor;
 
@@ -101,7 +149,7 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 				break;
 				
 			case THOUSAND:
-				factor = (long)Math.pow(10.0D, 3.0D);
+				factor = (long)Math.pow(10, THOUSAND);
 				word = (int) (number / factor);
 				resto = number % factor;
 
