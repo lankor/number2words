@@ -13,7 +13,7 @@ import com.lankorlab.translate.impl.EnglishTranslator;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TranslatorEnglishTest {
-	private static final Logger log = LoggerFactory
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TranslatorEnglishTest.class);
 	
 	private static final long[] TEST = {Long.MAX_VALUE, 3093618405661292503L,
@@ -94,7 +94,7 @@ public class TranslatorEnglishTest {
 	public void translatorZero() {
 		int i = 0;
 		String value = english.translate(i);
-		log.info(i + " " + value);
+		LOGGER.info(i + " " + value);
 		Assert.assertEquals("zero", value);
 	}
 	
@@ -102,7 +102,7 @@ public class TranslatorEnglishTest {
 	public void translatorNegative() {
 		int i = -1;
 		String value = english.translate(i);
-		log.info(i + " " + value);
+		LOGGER.info(i + " " + value);
 		Assert.assertEquals("zero", value);
 	}
 	
@@ -110,7 +110,7 @@ public class TranslatorEnglishTest {
 	public void translator() {
 		for (int i = 0; i < TEST.length; i++) {
 			String value = english.translate(TEST[i]);
-			log.info(TEST[i] + " " + value);
+			LOGGER.info(TEST[i] + " " + value);
 			Assert.assertEquals(TEST_ASSERT[i], value);
 		}
 		
@@ -126,6 +126,6 @@ public class TranslatorEnglishTest {
 			str.append(r.nextLong());
 		}
 		
-		log.info(str.toString());
+		LOGGER.info(str.toString());
 	}
 }

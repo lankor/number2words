@@ -8,15 +8,16 @@ import org.slf4j.LoggerFactory;
 import com.lankorlab.translate.currency.impl.EnglishCurrencyTranslator;
 
 public class CurrencyTranslatorEnglishTest {
-	private static final Logger log = LoggerFactory
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CurrencyTranslatorEnglishTest.class);
+	
 	private CurrencyTranslator currency = new EnglishCurrencyTranslator();
 	
 	@Test
 	public void translatorZero() {
 		int i = 0;
 		String value = currency.translate(i, CurrencyType.MEXICO);
-		log.info(i + " " + value);
+		LOGGER.info(i + " " + value);
 		Assert.assertEquals("zero pesos 00/100 MXN", value);
 	}
 	
@@ -24,7 +25,7 @@ public class CurrencyTranslatorEnglishTest {
 	public void translatorNegative() {
 		int i = -1;
 		String value = currency.translate(i, CurrencyType.MEXICO);
-		log.info(i + " " + value);
+		LOGGER.info(i + " " + value);
 		Assert.assertEquals("zero pesos 00/100 MXN", value);
 	}
 	
@@ -32,7 +33,8 @@ public class CurrencyTranslatorEnglishTest {
 	public void translatorMonedaMexico() {
 		long index = 0;
 		for (int i = 0; i < 100; i++) {
-			log.info(index + " " + currency.translate(index++, CurrencyType.MEXICO));
+			LOGGER.info(index + " " + currency
+					.translate(index++, CurrencyType.MEXICO));
 		}
 	}
 	
@@ -40,7 +42,8 @@ public class CurrencyTranslatorEnglishTest {
 	public void translatorMonedaEstadosUnidos() {
 		long index = 0;
 		for (int i = 0; i < 100; i++) {
-			log.info(index + " " + currency.translate(index++, CurrencyType.USA));
+			LOGGER.info(index + " " + currency
+					.translate(index++, CurrencyType.USA));
 		}
 	}
 }

@@ -11,7 +11,7 @@ import com.lankorlab.translate.impl.SpanishTranslator;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TranslatorSpanishTest {
-	private static final Logger log = LoggerFactory
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TranslatorSpanishTest.class);
 	
 	private static final long[] TEST = {Long.MAX_VALUE, 9001249015728383882L,
@@ -94,7 +94,7 @@ public class TranslatorSpanishTest {
 	public void translatorZero() {
 		int i = 0;
 		String value = spanish.translate(i);
-		log.info(i + " " + value);
+		LOGGER.info(i + " " + value);
 		Assert.assertEquals("cero", value);
 	}
 	
@@ -102,7 +102,7 @@ public class TranslatorSpanishTest {
 	public void translatorNegative() {
 		int i = -1;
 		String value = spanish.translate(i);
-		log.info(i + " " + value);
+		LOGGER.info(i + " " + value);
 		Assert.assertEquals("cero", value);
 	}
 	
@@ -110,7 +110,7 @@ public class TranslatorSpanishTest {
 	public void translator() {
 		for (int i = 0; i < TEST.length; i++) {
 			String value = spanish.translate(TEST[i]);
-			log.info(TEST[i] + " " + value);
+			LOGGER.info(TEST[i] + " " + value);
 			Assert.assertEquals(TEST_ASSERT[i], value);
 		}
 		
