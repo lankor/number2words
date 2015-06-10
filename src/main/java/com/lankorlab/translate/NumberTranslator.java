@@ -19,6 +19,4 @@ public interface NumberTranslator {
 	 * @return Cadena de texto con el numero indicado convertido en palabras.
 	 */
 	String translate(Number number);
-	String translate(int number);
-	String translate(long number);
 }

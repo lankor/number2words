@@ -55,42 +55,17 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 	private static final String[] BILLIONS = {null, "billón", "billones"};
 	
 	/**
-	 * Billones
+	 * Representacion escrita de millones tanto en singular como en plural.
 	 */
-	private static final int BILLION = 12;
+	private static final String[] TRILLIONS = {null, "trillón", "trillones"};
 	
-	/**
-	 * Miles de millon
-	 */
-	private static final int THOUSAND_MILLION = 9;
-	/**
-	 * Millon
-	 */
-	private static final int MILLION = 6;
-	/**
-	 * Mil
-	 */
-	private static final int THOUSAND = 3;
-	
-	/**
-	 * Centena
-	 */
-	private static final int HUNDRED = 2;
-	/**
-	 * Decena
-	 */
-	private static final int TEN = 1;
-	/**
-	 * Unidad
-	 */
-	private static final int UNIT = 0;
 	
 	@Override
 	public String translate(Number number) {
 		validate(number);
 		return translateNumber(number.longValue());
 	}
-
+	
 	private String translateNumber(long number) {
 		if (number == 0) {
 			return UNITS[(int) number];
@@ -105,6 +80,52 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 		
 		while (number != 0) {
 			switch(n) {
+			case TRILLION:
+				factor = (long) Math.pow(10, TRILLION);
+				word = (int) (number / factor);
+				resto = (long) number % factor;
+
+				String trillions = getHundreds(word);
+				numToWord.append(trillions);
+				
+				if (!numToWord.toString().endsWith(" ")) {
+					numToWord.append(" ");
+				}
+				
+				if (word == 1) {
+					numToWord.append(TRILLIONS[word]);
+				} else {
+					numToWord.append(TRILLIONS[2]);
+				}
+				
+				if (resto > 0) {
+					numToWord.append(" ");
+				}
+				number = resto;
+				n = init(resto);
+				break;
+				
+			case THOUSAND_BILLION:
+				factor = (long) Math.pow(10, BILLION);
+				word = (int) (number / factor);
+				resto = (long) number % factor;
+				
+				numToWord.append(translateNumber(word));
+				
+				
+				if (!numToWord.toString().endsWith(" ")) {
+					numToWord.append(" ");
+				}
+				
+				numToWord.append(BILLIONS[2]);
+				
+				if (resto > 0) {
+					numToWord.append(" ");
+				}
+				number = resto;
+				n = init(resto);
+				break;
+			
 			case BILLION:
 				factor = (long) Math.pow(10, BILLION);
 				word = (int) (number / factor);
@@ -251,6 +272,7 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 					return "No se puede convertir el numero";
 			}
 		}
+		
 		return numToWord.toString();
 	}
 
@@ -261,59 +283,5 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 			thousands = thousands.substring(0, thousands.length() - 1);
 		}
 		return thousands;
-	}
-
-	/**
-	 * Devuelve el rango de numeros al que pertenece el valor para poder 
-	 * iniciar su converion en su representacion escrita.
-	 * @param number Numero del que se quiere conocer su rango
-	 * @return Rango al que pertenece el numero.
-	 */
-	private int init(long number) {
-		
-		switch (String.valueOf(number).length()) {
-		case 1:
-			return UNIT;
-			
-		case 2:
-			return TEN;
-
-		case 3:
-			return HUNDRED;
-			
-		case 4:
-		case 5:
-		case 6:
-			return THOUSAND;
-			
-		case 7:
-		case 8:
-		case 9:
-			return MILLION;
-			
-		case 10:
-		case 11:
-		case 12:
-			return THOUSAND_MILLION;
-			
-		case 13:
-		case 14:
-		case 15:
-			return BILLION;
-			
-		default:
-			return 0;
-		}
-		
-	}
-	
-	@Override
-	public String translate(int number) {
-		return translate(new Long(number));
-	}
-
-	@Override
-	public String translate(long number) {
-		return translate(new Long(number));
 	}
 }
