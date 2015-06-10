@@ -9,11 +9,11 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lankorlab.traslate.NumberTranslator;
-import com.lankorlab.traslate.currency.CurrencyTranslator;
-import com.lankorlab.traslate.currency.CurrencyType;
-import com.lankorlab.traslate.currency.impl.SpanishCurrencyTranslator;
-import com.lankorlab.traslate.impl.SpanishTranslator;
+import com.lankorlab.translate.NumberTranslator;
+import com.lankorlab.translate.currency.CurrencyTranslator;
+import com.lankorlab.translate.currency.CurrencyType;
+import com.lankorlab.translate.currency.impl.SpanishCurrencyTranslator;
+import com.lankorlab.translate.impl.SpanishTranslator;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TranslatorTest {

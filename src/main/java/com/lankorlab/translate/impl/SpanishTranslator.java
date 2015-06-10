@@ -1,6 +1,6 @@
-package com.lankorlab.traslate.impl;
+package com.lankorlab.translate.impl;
 
-import com.lankorlab.traslate.NumberTranslator;
+import com.lankorlab.translate.NumberTranslator;
 
 /**
  * Implementacion al español de la representacion escrita de numeros, el maximo
@@ -10,7 +10,7 @@ import com.lankorlab.traslate.NumberTranslator;
  * @version 1.0 06/12/2012
  *
  */
-public class SpanishTranslator implements NumberTranslator {
+public class SpanishTranslator extends AbstractTranslator implements NumberTranslator {
 
 	/**
 	 * Representacion escrita de las unidades.
@@ -87,10 +87,7 @@ public class SpanishTranslator implements NumberTranslator {
 	
 	@Override
 	public String translate(Number number) {
-		if (number.longValue() < 0) {
-			throw new IllegalArgumentException("El valor es incorecto, el " +
-					"número debe ser mayor o igual a 0");
-		}
+		validate(number);
 		return translateNumber(number.longValue());
 	}
 
@@ -309,5 +306,14 @@ public class SpanishTranslator implements NumberTranslator {
 		}
 		
 	}
+	
+	@Override
+	public String translate(int number) {
+		return translate(new Long(number));
+	}
 
+	@Override
+	public String translate(long number) {
+		return translate(new Long(number));
+	}
 }

@@ -1,8 +1,8 @@
-package com.lankorlab.traslate.currency.impl;
+package com.lankorlab.translate.currency.impl;
 
 import java.text.DecimalFormat;
 
-import com.lankorlab.traslate.currency.CurrencyTranslator;
+import com.lankorlab.translate.currency.CurrencyTranslator;
 
 public abstract class AbstractCurrencyTranslator implements CurrencyTranslator {
 	protected final long getIntegerPart(Number number) {

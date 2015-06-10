@@ -1,11 +1,11 @@
-package com.lankorlab.traslate.currency.impl;
+package com.lankorlab.translate.currency.impl;
 
 import java.text.DecimalFormat;
 
-import com.lankorlab.traslate.NumberTranslator;
-import com.lankorlab.traslate.currency.CurrencyTranslator;
-import com.lankorlab.traslate.currency.CurrencyType;
-import com.lankorlab.traslate.impl.SpanishTranslator;
+import com.lankorlab.translate.NumberTranslator;
+import com.lankorlab.translate.currency.CurrencyTranslator;
+import com.lankorlab.translate.currency.CurrencyType;
+import com.lankorlab.translate.impl.SpanishTranslator;
 
 public class SpanishCurrencyTranslator implements CurrencyTranslator {
 	NumberTranslator translator = new SpanishTranslator();

@@ -1,4 +1,4 @@
-package com.lankorlab.traslate.currency;
+package com.lankorlab.translate.currency;
 
 
 public interface CurrencyTranslator {

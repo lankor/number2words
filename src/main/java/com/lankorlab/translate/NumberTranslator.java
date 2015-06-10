@@ -1,4 +1,4 @@
-package com.lankorlab.traslate;
+package com.lankorlab.translate;
 
 /**
  * Define el comportamiento para traducir a su representacion escrita el valor 
@@ -19,4 +19,6 @@ public interface NumberTranslator {
 	 * @return Cadena de texto con el numero indicado convertido en palabras.
 	 */
 	String translate(Number number);
+	String translate(int number);
+	String translate(long number);
 }
