@@ -47,7 +47,7 @@ public abstract class AbstractTranslator {
 	 */
 	protected static final int UNIT = 0;
 	
-	protected void validate(Number number) {
+	protected final void validate(Number number) {
 		if (number.longValue() < 0) {
 			throw new IllegalArgumentException("El valor es incorecto, el " +
 					"número debe ser mayor o igual a 0");
@@ -60,7 +60,7 @@ public abstract class AbstractTranslator {
 	 * @param number Numero del que se quiere conocer su rango
 	 * @return Rango al que pertenece el numero.
 	 */
-	protected int init(long number) {
+	protected final int init(long number) {
 		
 		switch (String.valueOf(number).length()) {
 		case 1:
