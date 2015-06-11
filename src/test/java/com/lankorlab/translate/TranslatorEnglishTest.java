@@ -1,7 +1,5 @@
 package com.lankorlab.translate;
 
-import java.util.Random;
-
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -114,18 +112,5 @@ public class TranslatorEnglishTest {
 			Assert.assertEquals(TEST_ASSERT[i], value);
 		}
 		
-	}
-	
-	
-	@Test
-	public void generate() {
-		Random r = new Random();
-		
-		StringBuffer str = new StringBuffer();
-		for(int i = 0; i < 100; i++) {
-			str.append(r.nextLong());
-		}
-		
-		LOGGER.info(str.toString());
 	}
 }

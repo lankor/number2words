@@ -115,20 +115,4 @@ public class TranslatorSpanishTest {
 		}
 		
 	}
-	
-//	@Test
-//	public void traductorMonedaMexico() {
-//		long index = 0;
-//		for (int i = 0; i < 100; i++) {
-//			log.info(index + " " + currency.translate(index++, CurrencyType.MEXICO));
-//		}
-//	}
-//	
-//	@Test
-//	public void traductorMonedaEstadosUnidos() {
-//		long index = 0;
-//		for (int i = 0; i < 100; i++) {
-//			log.info(index + " " + currency.translate(index++, CurrencyType.USA));
-//		}
-//	}
 }
