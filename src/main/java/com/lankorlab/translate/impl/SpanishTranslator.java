@@ -30,7 +30,7 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 	/**
 	 * Representacion escrita de la decenas.
 	 */
-	private static final String[] TENS = {null, "diez", "venite", "treinta", 
+	private static final String[] TENS = {null, "diez", "veinte", "treinta", 
 		"cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"};
 	
 	/**
