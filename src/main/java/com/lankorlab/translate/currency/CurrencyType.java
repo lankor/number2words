@@ -1,7 +1,8 @@
 package com.lankorlab.translate.currency;
 
 public enum CurrencyType {
-	MEXICO("MXN", 484)
+	MEXICO("MXN", 484),
+	USA("USD", 840)
 	;
 	
 	String code;

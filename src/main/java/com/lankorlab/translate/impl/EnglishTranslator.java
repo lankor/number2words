@@ -15,6 +15,8 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 	private static final String MILLIONS = "million";
 	private static final String BILLIONS = "billion";
 	private static final String TRILLIONS = "trillion";
+	private static final String QUADRILLION = "quadrillion";
+	private static final String QUINTILLION = "quintillion";
 	
 	@Override
 	public String translate(Number number) {
@@ -34,88 +36,61 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 			long factor;
 			int word;
 			long resto;
-			String miles;
 			switch (n) {
+			case TRILLION:
+				factor = (long) Math.pow(10, TRILLION);
+				word = (int) (number / factor);
+				resto = number % factor;
+				getNumber(numToWord, word, resto, QUINTILLION);
+				number = resto;
+				n = init(resto);
+
+				break;
+				
+			case THOUSAND_BILLION:
+				factor = (long) Math.pow(10, THOUSAND_BILLION);
+				word = (int) (number / factor);
+				resto = number % factor;
+				getNumber(numToWord, word, resto, QUADRILLION);
+				
+				number = resto;
+				n = init(resto);
+
+				break;
+				
 			case BILLION:
 				factor = (long) Math.pow(10, BILLION);
 				word = (int) (number / factor);
 				resto = number % factor;
-
-				String billones = getHundreds(word);
-				numToWord.append(billones);
-				
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-				
-				numToWord.append(TRILLIONS);
-
-				if (resto > 0L) {
-					numToWord.append(" ");
-				}
-				
+				getNumber(numToWord, word, resto, TRILLIONS);
 				number = resto;
 				n = init(resto);
 
 				break;
 				
 			case THOUSAND_MILLION:
-				factor = (long) Math.pow(10, MILLION);
+				factor = (long) Math.pow(10, THOUSAND_MILLION);
 				word = (int) (number / factor);
 				resto = number % factor;
-
-				String millones = getHundreds(word);
-				numToWord.append(millones);
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-
-				numToWord.append(BILLIONS);
-				
-				if (resto > 0L) {
-					numToWord.append(" ");
-				}
+				getNumber(numToWord, word, resto, BILLIONS);
 				number = resto;
 				n = init(resto);
 				break;
 				
 			case MILLION:
-				factor = (long) Math.pow(10.0D, 6.0D);
+				factor = (long) Math.pow(10, MILLION);
 				word = (int) (number / factor);
 				resto = number % factor;
-
-				miles = getHundreds(word);
-				numToWord.append(miles);
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-				
-				numToWord.append(MILLIONS);
-				
-				if (resto > 0L) {
-					numToWord.append(" ");
-				}
-				
+				getNumber(numToWord, word, resto, MILLIONS);
 				number = resto;
 				n = init(resto);
 				break;
 				
 			case THOUSAND:
-				factor = (long)Math.pow(10.0D, 3.0D);
+				factor = (long)Math.pow(10, THOUSAND);
 				word = (int) (number / factor);
 				resto = number % factor;
-
-				miles = getHundreds(word);
-				numToWord.append(miles);
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-				
-				numToWord.append(THOUSANDS);
-				
-				if (resto > 0L) {
-					numToWord.append(" ");
-				}
+				getNumber(numToWord, word, resto, THOUSANDS);
 				
 				number = resto;
 				n = init(resto);
@@ -125,19 +100,7 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 				factor = (long) Math.pow(10, HUNDRED);
 				word = (int) (number / factor);
 				resto = number % factor;
-
-				String cientos = getHundreds(word);
-				numToWord.append(cientos);
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-				
-				numToWord.append(HUNDREDS);
-				
-				if (resto > 0L) {
-					numToWord.append(" ");
-				}
-				
+				getNumber(numToWord, word, resto, HUNDREDS);
 				number = resto;
 				n = init(resto);
 				break;
@@ -181,7 +144,16 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 		return numToWord.toString().trim();
 	}
 
-	private String getHundreds(int word) {
-		return translateNumber(word).trim();
+	private void getNumber(StringBuilder numToWord, int word, long resto, String position) {
+		numToWord.append(translateNumber(word).trim());
+		if (!numToWord.toString().endsWith(" ")) {
+			numToWord.append(" ");
+		}
+		numToWord.append(position);
+
+		if (resto > 0L) {
+			numToWord.append(" ");
+		}
 	}
+
 }

@@ -21,10 +21,12 @@ public abstract class AbstractTranslator {
 	 * Miles de millon
 	 */
 	protected static final int THOUSAND_MILLION = 9;
+	
 	/**
 	 * Millon
 	 */
 	protected static final int MILLION = 6;
+	
 	/**
 	 * Mil
 	 */
@@ -34,16 +36,18 @@ public abstract class AbstractTranslator {
 	 * Centena
 	 */
 	protected static final int HUNDRED = 2;
+	
 	/**
 	 * Decena
 	 */
 	protected static final int TEN = 1;
+	
 	/**
 	 * Unidad
 	 */
 	protected static final int UNIT = 0;
 	
-	protected void validate(Number number) {
+	protected final void validate(Number number) {
 		if (number.longValue() < 0) {
 			throw new IllegalArgumentException("El valor es incorecto, el " +
 					"número debe ser mayor o igual a 0");
@@ -56,7 +60,7 @@ public abstract class AbstractTranslator {
 	 * @param number Numero del que se quiere conocer su rango
 	 * @return Rango al que pertenece el numero.
 	 */
-	protected int init(long number) {
+	protected final int init(long number) {
 		
 		switch (String.valueOf(number).length()) {
 		case 1:
