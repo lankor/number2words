@@ -5,6 +5,7 @@
 	<groupId>com.lankorlab</groupId>
 	<artifactId>num-translator</artifactId>
 	<version>1.0.0</version>
+
 	<packaging>jar</packaging>
 
 	<name>num-translator</name>

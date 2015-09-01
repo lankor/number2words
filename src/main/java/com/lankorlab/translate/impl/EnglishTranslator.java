@@ -17,7 +17,7 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 	private static final String TRILLIONS = "trillion";
 	private static final String QUADRILLION = "quadrillion";
 	private static final String QUINTILLION = "quintillion";
-	
+	//http://nicholasacademy.com/numbertowordconverter.html#.VXetAc9_Oko
 	@Override
 	public String translate(Number number) {
 		validate(number);
