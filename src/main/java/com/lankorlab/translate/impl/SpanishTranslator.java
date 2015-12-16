@@ -226,7 +226,7 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 					numToWord.append(HUNDREDS[word]);
 					if (word == 1 && resto > 0) {
 						numToWord.append("to ");
-					} else {
+					} else if (resto != 0) {
 						numToWord.append(" ");
 					}
 				}
