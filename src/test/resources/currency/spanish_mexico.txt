@@ -24,4 +24,5 @@
 22.50=veintidos pesos 50/100 MXN
 7.73=siete pesos 73/100 MXN
 6.40=seis pesos 40/100 MXN
+1.00=un peso 00/100 MXN
 0.93=cero pesos 93/100 MXN

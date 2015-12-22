@@ -34,7 +34,7 @@ public class SpanishCurrencyTranslator extends AbstractCurrencyTranslator implem
 			
 		case USA:
 			if (number.longValue() == 1) {
-				numToWord.append("dolar");
+				numToWord.append("dólar");
 			} else {
 				numToWord.append("dólares");
 			}

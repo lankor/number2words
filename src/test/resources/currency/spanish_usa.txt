@@ -24,4 +24,5 @@
 22.50=veintidos dólares 50/100 USD
 7.73=siete dólares 73/100 USD
 6.40=seis dólares 40/100 USD
+1.00=un dólar 00/100 USD
 0.93=cero dólares 93/100 USD
