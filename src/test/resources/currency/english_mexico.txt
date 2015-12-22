@@ -25,3 +25,4 @@
 9.07=nine pesos 07/100 MXN
 8.87=eight pesos 87/100 MXN
 5.34=five pesos 34/100 MXN
+1.00=un peso 00/100 MXN
