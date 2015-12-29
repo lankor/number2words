@@ -247,7 +247,7 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 					numToWord.append(TENS[word]);
 					number = 0;
 				} else if (word == 2 && resto > 0) {
-					numToWord.append(TENS[word]);
+					numToWord.append(ESP[(int)resto + 10]);
 					number = 0;
 				} else if (word == 2 && resto == 0) {
 					numToWord.append(TENS[word]);
