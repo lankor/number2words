@@ -24,7 +24,7 @@ public class EnglishTranslator extends AbstractTranslator implements NumberTrans
 		return translateNumber(number.longValue());
 	}
 
-	private String translateNumber(long number) {
+	protected String translateNumber(long number) {
 		if (number == 0L) {
 			return UNITS[((int) number)];
 		}

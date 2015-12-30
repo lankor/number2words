@@ -37,7 +37,7 @@ public class FrenchTranslator extends AbstractTranslator implements
 	}
 
 
-	private String translateNumber(long number) {
+	protected String translateNumber(long number) {
 		if (number == 0) {
 			return UNITS[(int) number];
 		}

@@ -1,16 +1,14 @@
 package com.lankorlab.translate.impl;
 
-import com.lankorlab.translate.NumberTranslator;
-
 /**
- * Implementacion al español de la representacion escrita de numeros, el maximo
- * numero que se puede traducir es 999,999,999,999.
+ * Implementacion al español de la representacion escrita de numeros.
  * 
  * @author Luis Ángel Cárdenas  luis.cardeno@gmail.com
- * @version 1.0 06/12/2012
+ * @see Long
+ * {@link Long#MAX_VALUE}
  *
  */
-public class SpanishTranslator extends AbstractTranslator implements NumberTranslator {
+public class SpanishTranslator extends AbstractTranslator {
 
 	/**
 	 * Representacion escrita de las unidades.
@@ -47,219 +45,131 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 	/**
 	 * Representacion escrita de millones tanto en singular como en plural.
 	 */
-	private static final String[] MILLIONS = {null, "millón", "millones"};
+	private static final String[] MILLIONS = {"millón", "millones"};
 	
 	/**
 	 * Representacion escrita de millones tanto en singular como en plural.
 	 */
-	private static final String[] BILLIONS = {null, "billón", "billones"};
+	private static final String[] BILLIONS = {"billón", "billones"};
 	
 	/**
 	 * Representacion escrita de millones tanto en singular como en plural.
 	 */
-	private static final String[] TRILLIONS = {null, "trillón", "trillones"};
+	private static final String[] TRILLIONS = {"trillón", "trillones"};
 	
 	
-	@Override
-	public String translate(Number number) {
-		validate(number);
-		return translateNumber(number.longValue());
-	}
 	
-	private String translateNumber(long number) {
+	/**
+	 * <p>
+	 * Define el algoritmo de traduccion de numeros a texto en el idioma español
+	 * </p>
+	 * <p>
+	 * 
+	 * </p>
+	 * @param number
+	 * @return
+	 */
+	protected String translateNumber(long number) {
 		if (number == 0) {
 			return UNITS[(int) number];
 		}
 		
 		StringBuilder numToWord = new StringBuilder();
-		int n = init(number);
+		int range = init(number);
 		
-		int word;
-		long resto;
-		long factor;
+		Cantidad cant = null;
 		
 		while (number != 0) {
-			switch(n) {
+			switch(range) {
 			case TRILLION:
-				factor = (long) Math.pow(10, TRILLION);
-				word = (int) (number / factor);
-				resto = (long) number % factor;
-
-				String trillions = getHundreds(word);
-				numToWord.append(trillions);
-				
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-				
-				if (word == 1) {
-					numToWord.append(TRILLIONS[word]);
-				} else {
-					numToWord.append(TRILLIONS[2]);
-				}
-				
-				if (resto > 0) {
-					numToWord.append(" ");
-				}
-				number = resto;
-				n = init(resto);
+				number = translate(number, numToWord, TRILLION, TRILLIONS);
+				range = init(number);
 				break;
 				
 			case THOUSAND_BILLION:
-				factor = (long) Math.pow(10, BILLION);
-				word = (int) (number / factor);
-				resto = (long) number % factor;
-				
-				numToWord.append(translateNumber(word));
-				
-				
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-				
-				numToWord.append(BILLIONS[2]);
-				
-				if (resto > 0) {
-					numToWord.append(" ");
-				}
-				number = resto;
-				n = init(resto);
+				number = translateThousands(number, numToWord, BILLION, BILLIONS);
+				range = init(number);
 				break;
 			
 			case BILLION:
-				factor = (long) Math.pow(10, BILLION);
-				word = (int) (number / factor);
-				resto = (long) number % factor;
-				
-				String billions = getHundreds(word);
-				numToWord.append(billions);
-				
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-								
-				if (word == 1) {
-					numToWord.append(BILLIONS[word]);
-				} else {
-					numToWord.append(BILLIONS[2]);
-				}
-				
-				if (resto > 0) {
-					numToWord.append(" ");
-				}
-				number = resto;
-				n = init(resto);
+				number = translate(number, numToWord, BILLION, BILLIONS);
+				range = init(number);
 				
 				break;
 				
 			case THOUSAND_MILLION:
-				factor = (long) Math.pow(10, MILLION);
-				word = (int) (number / factor);
-				resto = (long) number % factor;
-				
-				numToWord.append(translateNumber(word));
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-				numToWord.append(MILLIONS[2]);
-				
-				if (resto > 0) {
-					numToWord.append(" ");
-				}
-				number = resto;
-				n = init(resto);
+				number = translateThousands(number, numToWord, MILLION, MILLIONS);
+				range = init(number);
 				break;
 				
 			case MILLION:
-				factor = (long) Math.pow(10, MILLION);
-				word = (int) (number / factor);
-				resto = (long) number % factor;
-				
-				String thousandsMillion = getHundreds(word);
-				numToWord.append(thousandsMillion);
-				
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-								
-				if (word == 1) {
-					numToWord.append(MILLIONS[word]);
-				} else {
-					numToWord.append(MILLIONS[2]);
-				}
-				
-				if (resto > 0) {
-					numToWord.append(" ");
-				}
-				number = resto;
-				n = init(resto);
+				number = translate(number, numToWord, MILLION, MILLIONS);
+				range = init(number);
 				break;
 				
 			case THOUSAND:
-				factor = (long) Math.pow(10, THOUSAND);
-				word = (int) (number / factor);
-				resto = (long) number % factor;
+				cant = new Cantidad(number, THOUSAND);
 				
-				String thousands = getHundreds(word);
-				numToWord.append(thousands);
+				numToWord.append(translateHundreds(cant.getNumero())).append(" ")
+				.append(THOUSANDS);
 				
-				if (!numToWord.toString().endsWith(" ")) {
-					numToWord.append(" ");
-				}
-				numToWord.append(THOUSANDS);
+				validarResto(numToWord, cant);
 				
-				if (resto > 0) {
-					numToWord.append(" ");
-				}
-				
-				number = resto;
-				n = init(resto);
+				number = cant.getResto();
+				range = init(number);
 				
 				break;
 				
 			case HUNDRED:
-				factor = (long) Math.pow(10, HUNDRED);
-				word = (int) (number / factor);
-				resto = (long) number % factor;
+				cant = new Cantidad(number, HUNDRED);
 				
-				if ( word > 0 && word < 10) {
-					numToWord.append(HUNDREDS[word]);
-					if (word == 1 && resto > 0) {
-						numToWord.append("to ");
-					} else if (resto != 0) {
-						numToWord.append(" ");
-					}
-				}
+				numToWord.append(HUNDREDS[cant.getNumero()]);
 				
-				number = resto;
-				n = init(resto);
+				if (cant.getNumero() == 1 && cant.getResto() > 0) {
+					numToWord.append("to ");
+				} else
+					validarResto(numToWord, cant);
+				
+				number = cant.getResto();
+				range = init(number);
 				break;
 				
 			case TEN:
-				factor = (long) Math.pow(10, TEN);
-				word = (int) (number / factor);
-				resto = (long) number % factor;
+				cant = new Cantidad(number, TEN);
 				
-				if (word == 1 && resto > 0) {
-					numToWord.append(ESP[(int) resto]);
+				switch(cant.getNumero()) {
+				case 1:
+					
+					if (cant.getResto() == 0) {
+						numToWord.append(TENS[cant.getNumero()]);
+					} else {
+						numToWord.append(ESP[(int) cant.getResto()]);
+					}
+					
 					number = 0;
-				} else if (word == 1 && resto == 0) {
-					numToWord.append(TENS[word]);
+					break;
+					
+				case 2:
+					if (cant.getResto() == 0) {
+						numToWord.append(TENS[cant.getNumero()]);
+					} else {
+						numToWord.append(ESP[(int)cant.getResto() + 10]);
+					}
+					
 					number = 0;
-				} else if (word == 2 && resto > 0) {
-					numToWord.append(ESP[(int)resto + 10]);
-					number = 0;
-				} else if (word == 2 && resto == 0) {
-					numToWord.append(TENS[word]);
-					number = 0;
-				} else if (word > 2) {
-					numToWord.append(TENS[word]);
-					if (resto > 0) {
+					break;
+					
+				default:
+					numToWord.append(TENS[cant.getNumero()]);
+					
+					if (cant.getResto() > 0) {
 						numToWord.append(" y ");
 					}
-					number = resto;
-					n = UNIT;
-				} 
+					number = cant.getResto();
+					range = UNIT;
+					break;
+				}
+				
 				
 				break;
 				
@@ -276,12 +186,111 @@ public class SpanishTranslator extends AbstractTranslator implements NumberTrans
 		return numToWord.toString();
 	}
 
-	private String getHundreds(int word) {
-		String thousands = translateNumber(word).trim();
-			
-		if (thousands.endsWith("uno")) {
-			thousands = thousands.substring(0, thousands.length() - 1);
+	/**
+	 * Devuelve el valor restante de la cantidad a traducir de acuerdo a la 
+	 * posicion (millon, billlon, etc.).
+	 * 
+	 * Este metodo se usa en la traduccion de millares
+	 * 
+	 * @param number Cantidad que se va a traducir
+	 * @param numToWord Texto con las traducciones previas, en caso de tenerlas.
+	 * @param factor Posicion en la que encuentra la cantidad a traducir.
+	 * @param unidades Valor del subfijo de acuerdo al la posicion de la 
+	 * cantidad a traducir
+	 * @return Modulo de la cantidad y el factor.
+	 */
+	private long translateThousands(long number, StringBuilder numToWord,
+			int factor, String[] unidades) {
+		Cantidad cant;
+		cant = new Cantidad(number, factor);
+		
+		numToWord.append(translateNumber(cant.getNumero())).append(" ");
+		
+		numToWord.append(unidades[1]);
+		
+		validarResto(numToWord, cant);
+		return cant.getResto();
+	}
+
+	/**
+	 * Devuelve el valor restante de la cantidad a traducir de acuerdo a la 
+	 * posicion (millon, billlon, etc.)
+	 * 
+	 * @param number Cantidad que se va a traducir
+	 * @param numToWord Texto con las traducciones previas, en caso de tenerlas.
+	 * @param factor Posicion en la que encuentra la cantidad a traducir.
+	 * @param unidades Valor del subfijo de acuerdo al la posicion de la 
+	 * cantidad a traducir
+	 * @return Modulo de la cantidad y el factor.
+	 */
+	private long translate(long number, StringBuilder numToWord, int factor,
+			String[] unidades) {
+		Cantidad cant;
+		cant = new Cantidad(number, factor);
+		
+		numToWord.append(translateHundreds(cant.getNumero())).append(" ");
+		
+		if (cant.getNumero() == 1) {
+			numToWord.append(unidades[0]);
+		} else {
+			numToWord.append(unidades[1]);
 		}
-		return thousands;
+		
+		validarResto(numToWord, cant);
+		return cant.getResto();
+	}
+
+	/**
+	 * Verifica si el resto de la cantidad traducida es diferente de 0, 
+	 * para realizar el ajuste en la cadena resultado. Ya que si el resto es 
+	 * mayor que 0, hay que agregar un espacio que entecedera a la traduccion 
+	 * del resto.
+	 * 
+	 * @param numToWord resultado de las traducciones previas de la cantidad original.
+	 * @param cant Contiene la informacion sobre la cantidad que se esta traduciendo.
+	 */
+	private void validarResto(StringBuilder numToWord, Cantidad cant) {
+		if (cant.getResto() > 0) {
+			numToWord.append(" ");
+		}
+	}
+	
+	/**
+	 * Devuelve la traduccion de centenas, es usado como metodo auxiliar para 
+	 * las centenas de millo, billon, etc.
+	 * 
+	 * @param number Numero que se desea traducir.
+	 * @return Texto de las centenas traducidas.
+	 */
+	private String translateHundreds(int number) {
+		String word = translateNumber(number).trim();
+			
+		if (word.endsWith("uno")) {
+			word = word.substring(0, word.length() - 1);
+		}
+		return word;
+	}
+	
+	class Cantidad {
+		private int numero;
+		private long resto;
+		
+		public Cantidad(long cantidad, int f) {
+			long factor = getFactor(f);
+			
+			this.numero = (int) (cantidad / factor);
+			this.resto = (long) cantidad % factor;
+		}
+		private long getFactor(int factor) {
+			return (long) Math.pow(10, factor);
+		}
+		
+		public long getResto() {
+			return resto;
+		}
+		
+		public int getNumero() {
+			return numero;
+		}
 	}
 }

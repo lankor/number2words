@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.lankorlab</groupId>
-	<artifactId>num-translator</artifactId>
+	<artifactId>number2words</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>num-translator</name>
+	<name>number2words</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

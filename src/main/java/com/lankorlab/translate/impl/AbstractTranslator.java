@@ -1,6 +1,17 @@
 package com.lankorlab.translate.impl;
 
-public abstract class AbstractTranslator {
+import com.lankorlab.translate.NumberTranslator;
+
+/**
+ * Clase que abstrae la funcionalidad común del traductor de números a texto.
+ * 
+ * Las traducciones se pueden cotejar con las de la pagina:
+ * <a href="http://www.ultralingua.com/onlinedictionary/numbers">http://www.ultralingua.com</a>
+ * 
+ * @author Luis Angel Cárdenas luis.cardeno@gmail.com
+ *
+ */
+public abstract class AbstractTranslator implements NumberTranslator {
 
 	/**
 	 * Trillones
@@ -47,6 +58,20 @@ public abstract class AbstractTranslator {
 	 */
 	protected static final int UNIT = 0;
 	
+	@Override
+	public String translate(Number number) {
+		validate(number);
+		return translateNumber(number.longValue());
+	}
+	
+	/**
+	 * Verifica que el numero que se quiere traducir sea un numero positivo 
+	 * mayor o igual a 0, de no se asi se lanza una excepción.
+	 * 
+	 * @param number
+	 * @throws IllegalArgumentException cuando el numero que recibe como 
+	 * parámetro no es válido.
+	 */
 	protected final void validate(Number number) {
 		if (number.longValue() < 0) {
 			throw new IllegalArgumentException("El valor es incorecto, el " +
@@ -106,4 +131,11 @@ public abstract class AbstractTranslator {
 		
 	}
 	
+	/**
+	 * Define el algoritmo empleado para la traduccion del numero a su 
+	 * representacion en texto.
+	 * @param number
+	 * @return
+	 */
+	protected abstract String translateNumber(long number);
 }
