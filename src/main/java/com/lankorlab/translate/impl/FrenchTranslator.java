@@ -258,11 +258,17 @@ public class FrenchTranslator extends AbstractTranslator implements
 				case 7:
 					numToWord.append(TENS[word]);
 					if (resto == 1) {
-						numToWord = new StringBuilder(numToWord.toString().replace("-dix", ""));
+						if (numToWord.toString().endsWith("-dix")) {
+							numToWord = new StringBuilder(numToWord.substring(0, numToWord.length() - 4));
+						}
 						numToWord.append(" et ");
 						numToWord.append(translate(resto + 10));
+						
 					} else if (resto > 1) {
-						numToWord = new StringBuilder(numToWord.toString().replace("dix", ""));
+						if (numToWord.toString().endsWith("dix")) {
+							numToWord = new StringBuilder(numToWord.substring(0, numToWord.length() - 3));
+						}
+						
 						numToWord.append(translate(resto + 10));
 					}
 					resto = 0;
@@ -281,7 +287,9 @@ public class FrenchTranslator extends AbstractTranslator implements
 					break;
 				case 9:
 					numToWord.append(TENS[word]);
-					numToWord = new StringBuilder(numToWord.toString().replace("dix", ""));
+					if (numToWord.toString().endsWith("dix")) {
+						numToWord = new StringBuilder(numToWord.substring(0, numToWord.length() - 3));
+					}
 					numToWord.append(translate(resto  + 10));
 					
 					resto = 0;

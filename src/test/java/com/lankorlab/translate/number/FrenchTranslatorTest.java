@@ -1,5 +1,7 @@
 package com.lankorlab.translate.number;
 
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -38,8 +40,8 @@ public class FrenchTranslatorTest extends AbstractNumberTranslationTest {
 	
 	@Test
 	public void testTranslateNumber() {
-		long i = 80000000000000000L;
-		String expected = "quatre-vingt mille billions";
+		long i = 10673;
+		String expected = "dix mille six cent soixante-treize";
 		String value = french.translate(i);
 		LOGGER.info(i + " " + value);
 		Assert.assertEquals(expected, value);
