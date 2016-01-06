@@ -61,13 +61,16 @@ public class SpanishTranslator extends AbstractTranslator {
 	
 	/**
 	 * <p>
-	 * Define el algoritmo de traduccion de numeros a texto en el idioma español
+	 * Implementa el algoritmo de traduccion de numeros a texto en el idioma
+	 * español
 	 * </p>
 	 * <p>
-	 * 
+	 * El algoritmo conciste en obtener el tamaño del numero para determinar el
+	 * rango que tiene (trillones, billones, millones, etc.) y traducir cada una
+	 * de las partes del numero.
 	 * </p>
-	 * @param number
-	 * @return
+	 * @param number Numero que se va a convertir en texto en español.
+	 * @return El numero convertido en el texto correspondiente al idioma español.
 	 */
 	protected String translateNumber(long number) {
 		if (number == 0) {
@@ -110,12 +113,12 @@ public class SpanishTranslator extends AbstractTranslator {
 			case THOUSAND:
 				cant = new Cantidad(number, THOUSAND);
 				
-				numToWord.append(translateHundreds(cant.getNumero())).append(" ")
+				numToWord.append(translateHundreds(cant.getNumber())).append(" ")
 				.append(THOUSANDS);
 				
 				validarResto(numToWord, cant);
 				
-				number = cant.getResto();
+				number = cant.getRemainder();
 				range = init(number);
 				
 				break;
@@ -123,49 +126,49 @@ public class SpanishTranslator extends AbstractTranslator {
 			case HUNDRED:
 				cant = new Cantidad(number, HUNDRED);
 				
-				numToWord.append(HUNDREDS[cant.getNumero()]);
+				numToWord.append(HUNDREDS[cant.getNumber()]);
 				
-				if (cant.getNumero() == 1 && cant.getResto() > 0) {
+				if (cant.getNumber() == 1 && cant.getRemainder() > 0) {
 					numToWord.append("to ");
 				} else
 					validarResto(numToWord, cant);
 				
-				number = cant.getResto();
+				number = cant.getRemainder();
 				range = init(number);
 				break;
 				
 			case TEN:
 				cant = new Cantidad(number, TEN);
 				
-				switch(cant.getNumero()) {
+				switch(cant.getNumber()) {
 				case 1:
 					
-					if (cant.getResto() == 0) {
-						numToWord.append(TENS[cant.getNumero()]);
+					if (cant.getRemainder() == 0) {
+						numToWord.append(TENS[cant.getNumber()]);
 					} else {
-						numToWord.append(ESP[(int) cant.getResto()]);
+						numToWord.append(ESP[(int) cant.getRemainder()]);
 					}
 					
 					number = 0;
 					break;
 					
 				case 2:
-					if (cant.getResto() == 0) {
-						numToWord.append(TENS[cant.getNumero()]);
+					if (cant.getRemainder() == 0) {
+						numToWord.append(TENS[cant.getNumber()]);
 					} else {
-						numToWord.append(ESP[(int)cant.getResto() + 10]);
+						numToWord.append(ESP[(int)cant.getRemainder() + 10]);
 					}
 					
 					number = 0;
 					break;
 					
 				default:
-					numToWord.append(TENS[cant.getNumero()]);
+					numToWord.append(TENS[cant.getNumber()]);
 					
-					if (cant.getResto() > 0) {
+					if (cant.getRemainder() > 0) {
 						numToWord.append(" y ");
 					}
-					number = cant.getResto();
+					number = cant.getRemainder();
 					range = UNIT;
 					break;
 				}
@@ -179,7 +182,7 @@ public class SpanishTranslator extends AbstractTranslator {
 				break;
 				
 				default:
-					return "No se puede convertir el numero";
+					return "No se puede convertir el number";
 			}
 		}
 		
@@ -204,12 +207,12 @@ public class SpanishTranslator extends AbstractTranslator {
 		Cantidad cant;
 		cant = new Cantidad(number, factor);
 		
-		numToWord.append(translateNumber(cant.getNumero())).append(" ");
+		numToWord.append(translateNumber(cant.getNumber())).append(" ");
 		
 		numToWord.append(unidades[1]);
 		
 		validarResto(numToWord, cant);
-		return cant.getResto();
+		return cant.getRemainder();
 	}
 
 	/**
@@ -228,29 +231,29 @@ public class SpanishTranslator extends AbstractTranslator {
 		Cantidad cant;
 		cant = new Cantidad(number, factor);
 		
-		numToWord.append(translateHundreds(cant.getNumero())).append(" ");
+		numToWord.append(translateHundreds(cant.getNumber())).append(" ");
 		
-		if (cant.getNumero() == 1) {
+		if (cant.getNumber() == 1) {
 			numToWord.append(unidades[0]);
 		} else {
 			numToWord.append(unidades[1]);
 		}
 		
 		validarResto(numToWord, cant);
-		return cant.getResto();
+		return cant.getRemainder();
 	}
 
 	/**
-	 * Verifica si el resto de la cantidad traducida es diferente de 0, 
-	 * para realizar el ajuste en la cadena resultado. Ya que si el resto es 
+	 * Verifica si el remainder de la cantidad traducida es diferente de 0,
+	 * para realizar el ajuste en la cadena resultado. Ya que si el remainder es
 	 * mayor que 0, hay que agregar un espacio que entecedera a la traduccion 
-	 * del resto.
+	 * del remainder.
 	 * 
 	 * @param numToWord resultado de las traducciones previas de la cantidad original.
 	 * @param cant Contiene la informacion sobre la cantidad que se esta traduciendo.
 	 */
 	private void validarResto(StringBuilder numToWord, Cantidad cant) {
-		if (cant.getResto() > 0) {
+		if (cant.getRemainder() > 0) {
 			numToWord.append(" ");
 		}
 	}
@@ -272,25 +275,25 @@ public class SpanishTranslator extends AbstractTranslator {
 	}
 	
 	class Cantidad {
-		private int numero;
-		private long resto;
+		private int number;
+		private long remainder;
 		
-		public Cantidad(long cantidad, int f) {
+		public Cantidad(long number, int f) {
 			long factor = getFactor(f);
 			
-			this.numero = (int) (cantidad / factor);
-			this.resto = (long) cantidad % factor;
+			this.number = (int) (number / factor);
+			this.remainder = (long) number % factor;
 		}
 		private long getFactor(int factor) {
 			return (long) Math.pow(10, factor);
 		}
 		
-		public long getResto() {
-			return resto;
+		public long getRemainder() {
+			return remainder;
 		}
 		
-		public int getNumero() {
-			return numero;
+		public int getNumber() {
+			return number;
 		}
 	}
 }

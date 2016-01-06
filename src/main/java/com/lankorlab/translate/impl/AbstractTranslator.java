@@ -134,8 +134,9 @@ public abstract class AbstractTranslator implements NumberTranslator {
 	/**
 	 * Define el algoritmo empleado para la traduccion del numero a su 
 	 * representacion en texto.
-	 * @param number
-	 * @return
+	 *
+	 * @param number Numero que se va a convertir en texto.
+	 * @return El numero convertido en el texto.
 	 */
 	protected abstract String translateNumber(long number);
 }
